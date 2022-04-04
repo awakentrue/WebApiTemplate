@@ -1,5 +1,5 @@
 # Web API template
-Template for a quick start Web API application
+Template for a quick start Web API
 
 ## Technologies
 * [x] .NET 6
