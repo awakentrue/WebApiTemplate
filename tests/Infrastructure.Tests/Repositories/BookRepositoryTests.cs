@@ -28,7 +28,7 @@ public class BookRepositoryTests : RepositoryTests<Book>
 
         var firstBook = books.First();
 
-        var foundBook = await _bookRepository.GetByGenreAsync(firstBook.Genre);
+        var foundBook = await _bookRepository.GetByGenreAsync(firstBook.Genre!);
         foundBook.Should().BeEquivalentTo(new[] {firstBook});
     }
 

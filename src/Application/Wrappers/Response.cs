@@ -11,7 +11,7 @@ public class Response<T> : Response
     {
     }
 
-    public T Data { get; }
+    public T? Data { get; }
 
     public static implicit operator Response<T>(T data) => new Response<T>(data);
 
@@ -33,7 +33,7 @@ public class Response
     
     public bool IsSuccessful { get; }
     
-    public ResponseError[] Errors { get; }
+    public ResponseError[]? Errors { get; }
     
     public static Response<T> Success<T>(T data)
     {
