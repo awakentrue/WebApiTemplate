@@ -11,7 +11,7 @@ namespace Application;
 
 public static class ServicesRegistration
 {
-    public static IServiceCollection AddApplicationLayer(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddApplicationLayer(this IServiceCollection services)
     {
         services.AddMediatR(Assembly.GetExecutingAssembly());
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());

@@ -16,7 +16,7 @@ public class Startup
     
     public void ConfigureServices(IServiceCollection services)
     {
-        services.AddApplicationLayer(Configuration);
+        services.AddApplicationLayer();
         services.AddInfrastructureLayer(Configuration);
         services.AddSerilogLogging(Configuration);
         services.AddControllers();

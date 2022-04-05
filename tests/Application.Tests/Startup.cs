@@ -7,7 +7,7 @@ public class Startup
 {
     public void ConfigureServices(IServiceCollection services)
     {
-        services.AddApplicationLayer(null);
+        services.AddApplicationLayer();
         services.AddGenerationRules();
     }
 }

@@ -1,0 +1,29 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "Rumyancev Alexander @awakentrue",
+  "classifications": [
+    "Web",
+    "Web API",
+    "ASP.NET",
+    "Template"
+  ],
+  "tags": {
+    "language": "C#",
+    "type": "project"
+  },
+  "identity": "awakentrue.WebApi.Template",
+  "name": "ASP.NET Clean Web API",
+  "shortName": "clean-webapi-template",
+  "sourceName": "WebApiTemplate",
+  "defaultName": "WebApi",
+  "preferNameDirectory": false,
+  "sources": [
+    {
+      "source": "./",
+      "target": "./",
+      "exclude": [
+        ".template.config/**"
+      ]
+    }
+  ]
+}
