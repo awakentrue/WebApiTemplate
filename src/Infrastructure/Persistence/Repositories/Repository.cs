@@ -7,9 +7,9 @@ namespace Infrastructure.Persistence.Repositories;
 
 public class Repository<TEntity> : IRepository<TEntity> where TEntity : class, IEntity
 {
-    private readonly LibraryDbContext _dbContext;
+    private readonly ApplicationDbContext _dbContext;
 
-    public Repository(LibraryDbContext dbContext)
+    public Repository(ApplicationDbContext dbContext)
     {
         _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
         DbSet = dbContext.Set<TEntity>();

@@ -4,9 +4,9 @@ namespace Infrastructure.Persistence;
 
 public class UnitOfWork : IUnitOfWork
 {
-    private readonly LibraryDbContext _dbContext;
+    private readonly ApplicationDbContext _dbContext;
 
-    public UnitOfWork(LibraryDbContext dbContext)
+    public UnitOfWork(ApplicationDbContext dbContext)
     {
         _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
     }

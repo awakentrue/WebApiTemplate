@@ -4,7 +4,6 @@ using FluentValidation;
 using Mapster;
 using MapsterMapper;
 using MediatR;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Application;

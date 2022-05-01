@@ -1,7 +1,9 @@
 using Application;
+using Application.Contracts;
 using Infrastructure;
 using WebApi.Configurations;
 using WebApi.Middlewares;
+using WebApi.Services;
 
 namespace WebApi;
 
@@ -20,8 +22,10 @@ public class Startup
         services.AddInfrastructureLayer(Configuration);
         services.AddSerilogLogging(Configuration);
         services.AddControllers();
-        services.AddSwaggerGen();
+        services.AddSwagger();
         services.AddApiBehaviorConfiguration();
+        services.AddHttpContextAccessor();
+        services.AddSingleton<ICurrentUserService, CurrentUserService>();
     }
     
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -35,6 +39,7 @@ public class Startup
 
         app.UseHttpsRedirection();
         app.UseRouting();
+        app.UseAuthentication();
         app.UseAuthorization();
         app.UseMiddleware<ErrorHandlerMiddleware>();
         app.UseEndpoints(endpoints => endpoints.MapControllers());

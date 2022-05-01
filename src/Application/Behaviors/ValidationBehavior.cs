@@ -9,7 +9,7 @@ public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TReques
     
     public ValidationBehavior(IEnumerable<IValidator<TRequest>> validators)
     {
-        _validators = validators;
+        _validators = validators ?? throw new ArgumentNullException(nameof(validators));
     }
 
     public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)

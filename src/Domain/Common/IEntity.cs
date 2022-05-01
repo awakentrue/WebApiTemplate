@@ -2,5 +2,5 @@ namespace Domain.Common;
 
 public interface IEntity
 {
-    int Id { get; set; }
+    int Id { get; }
 }

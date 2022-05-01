@@ -16,7 +16,7 @@ public class Program
 
             try
             {
-                var context = serviceProvider.GetRequiredService<LibraryDbContext>();
+                var context = serviceProvider.GetRequiredService<ApplicationDbContext>();
 
                 if (context.Database.IsSqlite())
                 {

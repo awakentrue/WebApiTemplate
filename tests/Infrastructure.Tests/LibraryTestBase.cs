@@ -9,7 +9,7 @@ namespace Infrastructure.Tests;
 
 public class LibraryTestBase : IDisposable
 {
-    protected readonly LibraryDbContext Context;
+    protected readonly ApplicationDbContext Context;
     
     protected LibraryTestBase()
     {
@@ -17,11 +17,11 @@ public class LibraryTestBase : IDisposable
             .AddEntityFrameworkInMemoryDatabase()
             .BuildServiceProvider();
         
-        var builder = new DbContextOptionsBuilder<LibraryDbContext>()
+        var builder = new DbContextOptionsBuilder<ApplicationDbContext>()
             .UseInMemoryDatabase(Guid.NewGuid().ToString())
             .UseInternalServiceProvider(serviceProvider);
 
-        Context = new LibraryDbContext(builder.Options);
+        Context = new ApplicationDbContext(builder.Options);
         Context.Database.EnsureCreated();
     }
 

@@ -6,7 +6,7 @@ namespace Infrastructure.Persistence.Repositories;
 
 public class BookRepository : Repository<Book>, IBookRepository
 {
-    public BookRepository(LibraryDbContext dbContext) : base(dbContext)
+    public BookRepository(ApplicationDbContext dbContext) : base(dbContext)
     {
     }
 

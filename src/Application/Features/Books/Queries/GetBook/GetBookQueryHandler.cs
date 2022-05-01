@@ -12,8 +12,8 @@ public class GetBookQueryHandler: IRequestHandler<GetBookQuery, BookDto>
 
     public GetBookQueryHandler(IBookRepository bookRepository, IMapper mapper)
     {
-        _bookRepository = bookRepository;
-        _mapper = mapper;
+        _bookRepository = bookRepository ?? throw new ArgumentNullException(nameof(bookRepository));
+        _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
     }
 
     public async Task<Response<BookDto>> Handle(GetBookQuery request, CancellationToken cancellationToken)
