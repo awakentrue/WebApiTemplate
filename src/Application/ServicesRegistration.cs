@@ -1,6 +1,5 @@
 using System.Reflection;
-using Application.Behaviors;
-using FluentValidation;
+using FluentValidation.AspNetCore;
 using Mapster;
 using MapsterMapper;
 using MediatR;
@@ -12,18 +11,30 @@ public static class ServicesRegistration
 {
     public static IServiceCollection AddApplicationLayer(this IServiceCollection services)
     {
-        services.AddMediatR(Assembly.GetExecutingAssembly());
-        services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
-        services.AddMapster();
-        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+        var executingAssembly = Assembly.GetExecutingAssembly();
         
+        services.AddMediatR(executingAssembly);
+        services.AddFluentValidationConfiguration(executingAssembly);
+        services.AddMapster(executingAssembly);
+
         return services;
     }
 
-    private static IServiceCollection AddMapster(this IServiceCollection services)
+    private static IServiceCollection AddFluentValidationConfiguration(this IServiceCollection services, params Assembly[] assemblies)
+    {
+        services.AddFluentValidation(x =>
+        {
+            x.DisableDataAnnotationsValidation = true;
+            x.RegisterValidatorsFromAssemblies(assemblies);
+        });
+
+        return services;
+    }
+    
+    private static IServiceCollection AddMapster(this IServiceCollection services, params Assembly[] assemblies)
     {
         var config = TypeAdapterConfig.GlobalSettings;
-        var registers = config.Scan(Assembly.GetExecutingAssembly());
+        var registers = config.Scan(assemblies);
 
         config.Apply(registers);
 

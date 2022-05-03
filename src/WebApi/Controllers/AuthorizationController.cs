@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers;
 
-[Route("api/auth")]
 public class AuthorizationController : ApiControllerBase
 {
     private readonly IAuthorizationService _authorizationService;

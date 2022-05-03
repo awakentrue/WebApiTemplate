@@ -2,13 +2,13 @@ namespace Application.Dto.Authorization;
 
 public class JwtToken
 {
-    public JwtToken(string token, DateTime expiredIn)
+    public JwtToken(string token, DateTime expiresIn)
     {
         Token = token;
-        ExpiredIn = expiredIn;
+        ExpiresIn = expiresIn;
     }
 
     public string Token { get; }
     
-    public DateTime ExpiredIn { get; }
+    public DateTime ExpiresIn { get; }
 }

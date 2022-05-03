@@ -1,7 +1,9 @@
 using Application;
 using Application.Contracts;
 using Infrastructure;
+using Microsoft.AspNetCore.Authorization;
 using WebApi.Configurations;
+using WebApi.Filters;
 using WebApi.Middlewares;
 using WebApi.Services;
 
@@ -21,11 +23,12 @@ public class Startup
         services.AddApplicationLayer();
         services.AddInfrastructureLayer(Configuration);
         services.AddSerilogLogging(Configuration);
-        services.AddControllers();
+        services.AddControllers(options => options.Filters.Add(typeof(ValidationFilter)));
         services.AddSwagger();
         services.AddApiBehaviorConfiguration();
         services.AddHttpContextAccessor();
-        services.AddSingleton<ICurrentUserService, CurrentUserService>();
+        services.AddSingleton<ICurrentUser, CurrentUser>();
+        services.AddSingleton<IAuthorizationMiddlewareResultHandler, CustomAuthorizationMiddlewareResultHandler>();
     }
     
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -37,11 +40,11 @@ public class Startup
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1"));
         }
 
+        app.UseMiddleware<ErrorHandlerMiddleware>();
         app.UseHttpsRedirection();
         app.UseRouting();
         app.UseAuthentication();
         app.UseAuthorization();
-        app.UseMiddleware<ErrorHandlerMiddleware>();
         app.UseEndpoints(endpoints => endpoints.MapControllers());
     }
 }

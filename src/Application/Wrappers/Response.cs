@@ -34,10 +34,25 @@ public class Response
     public bool IsSuccessful { get; }
     
     public ResponseError[]? Errors { get; }
+
+    public static Response Success()
+    {
+        return new Response();
+    }
     
     public static Response<T> Success<T>(T data)
     {
         return new Response<T>(data);
+    }
+
+    public static Response Fail(params ResponseError[] errors)
+    {
+        return new Response(errors);
+    }
+    
+    public static Response Fail(IEnumerable<ResponseError> errors)
+    {
+        return new Response(errors.ToArray());
     }
 
     public static Response<T> Fail<T>(params ResponseError[] errors)

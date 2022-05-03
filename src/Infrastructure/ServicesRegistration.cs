@@ -19,13 +19,11 @@ public static class ServicesRegistration
 {
     public static IServiceCollection AddInfrastructureLayer(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddJwtSettings(configuration, out var jwtSettings);
-        services.AddJwtTokenAuthentication(jwtSettings);
-
         services.AddScoped<ITokenFactory, JwtTokenFactory>();
         services.AddScoped<IRefreshTokenValidator, RefreshTokenValidator>();
         services.AddScoped<IAuthenticationService, AuthenticationService>();
         services.AddScoped<IAuthorizationService, AuthorizationService>();
+        services.AddScoped<IAccountService, AccountService>();
 
         // var connectionString = configuration.GetConnectionString("DefaultConnection");
         // services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite(connectionString).UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
@@ -34,6 +32,9 @@ public static class ServicesRegistration
         services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
+        
+        services.AddJwtSettings(configuration, out var jwtSettings);
+        services.AddJwtTokenAuthentication(jwtSettings);
 
         services.AddTransient<IUnitOfWork, UnitOfWork>();
         services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
@@ -54,7 +55,12 @@ public static class ServicesRegistration
     
     private static IServiceCollection AddJwtTokenAuthentication(this IServiceCollection services, JwtSettings jwtSettings)
     {
-        services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+        services.AddAuthentication(options =>
+                {
+                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
                 .AddJwtBearer(options =>
                 {
                     options.TokenValidationParameters = new TokenValidationParameters

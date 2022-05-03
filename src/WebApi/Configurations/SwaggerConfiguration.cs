@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
 
 namespace WebApi.Configurations;
@@ -10,27 +11,26 @@ public static class SwaggerConfiguration
         {
             options.SwaggerDoc("v1", new OpenApiInfo {Title = "WebAPI", Version = "v1"});
 
-            options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+            var openApiSecurityScheme = new OpenApiSecurityScheme
             {
+                Scheme = "Bearer",
+                BearerFormat = "JWT",
                 Description = "JWT Authorization header {token}",
                 Name = "Authorization",
                 In = ParameterLocation.Header,
-                Type = SecuritySchemeType.ApiKey
-            });
+                Type = SecuritySchemeType.Http,
+                Reference = new OpenApiReference
+                {
+                    Id = JwtBearerDefaults.AuthenticationScheme,
+                    Type = ReferenceType.SecurityScheme
+                }
+            };
+            
+            options.AddSecurityDefinition(openApiSecurityScheme.Reference.Id, openApiSecurityScheme);
 
             options.AddSecurityRequirement(new OpenApiSecurityRequirement
             {
-                {
-                    new OpenApiSecurityScheme
-                    {
-                        Reference = new OpenApiReference
-                        {
-                            Type = ReferenceType.SecurityScheme,
-                            Id = "Bearer"
-                        }
-                    },
-                    Array.Empty<string>()
-                }
+                { openApiSecurityScheme, Array.Empty<string>() }
             });
         });
 
